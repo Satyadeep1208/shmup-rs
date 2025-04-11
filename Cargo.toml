@@ -1,0 +1,9 @@
+[package]
+name = "shmup"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies.sdl2]
+version = "0.37"
+default-features = false
+features = ["ttf", "image", "gfx", "mixer"]
