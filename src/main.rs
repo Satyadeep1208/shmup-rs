@@ -14,14 +14,29 @@ pub fn main() -> Result<(), String> {
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
 
+
     // I believe this must be kept "underscored" to prevent
     // rust to drop it as dead code/unused variable;
     let _image_context = sdl2::image::init(InitFlag::PNG)?;
 
     /*
-    although screen is full HD, game world should be 1440:1080
-    with remaining space at each side of the screen used for
+    XXX
+    although aspect ratio is 16:9, the game world should be 4:3,
+    with the remaining space at each side of the screen used for
     HUD
+    */
+
+    /*
+    XXX
+
+    // probably set window size with the width and height
+    // grabbed as demonstrated below, but probably only if
+    // the values are smaller than the resolution set further
+    // below in canvas.set_logical_size
+
+    let dm = video_subsystem.current_display_mode(0)?;
+    let width, height = (dm.w, dm.h);
+
     */
 
     let window = video_subsystem.window("Shmup", 1920, 1080)
@@ -29,7 +44,10 @@ pub fn main() -> Result<(), String> {
         .build()
         .unwrap();
 
-    let mut canvas = window.into_canvas().software().build().unwrap();
+    // XXX should we used a `software()` call (before build)?
+    // would there be a problem if I didn't use it?
+    // research;
+    let mut canvas = window.into_canvas().build().unwrap();
     canvas.set_logical_size(960, 540);
 
     let texture_creator = canvas.texture_creator();
