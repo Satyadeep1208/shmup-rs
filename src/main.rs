@@ -1,4 +1,3 @@
-extern crate sdl2;
 
 use sdl2::pixels::Color;
 use sdl2::image::{InitFlag, LoadTexture};
@@ -26,18 +25,20 @@ pub fn main() -> Result<(), String> {
     HUD
     */
 
-    /*
-    XXX
-
+    /* XXX
     // probably set window size with the width and height
     // grabbed as demonstrated below, but probably only if
     // the values are smaller than the resolution set further
     // below in canvas.set_logical_size
+    //
+    // also, when needed, research the different behaviour of
+    // `current_display_mode` and `desktop_display_mode` methods
 
     let dm = video_subsystem.current_display_mode(0)?;
-    let width, height = (dm.w, dm.h);
+    let (width, height) = (dm.w, dm.h);
+    println!("width: {}, height: {}", width, height);
 
-    */
+    // */
 
     let window = video_subsystem.window("Shmup", 1920, 1080)
         .position_centered()
@@ -46,36 +47,30 @@ pub fn main() -> Result<(), String> {
 
     // XXX should we used a `software()` call (before build)?
     // would there be a problem if I didn't use it?
+    // and what about `accelerated()` instead?
     // research;
+
     let mut canvas = window.into_canvas().build().unwrap();
-    canvas.set_logical_size(960, 540);
+    canvas.set_logical_size(960, 540).unwrap();
 
     let texture_creator = canvas.texture_creator();
 
     let texture = texture_creator
                     .load_texture(
-                        Path::new("/home/kennedy/repos/shmup/ship_0000.png")
+                        Path::new("src/data/images/ship_0000.png")
                     )?;
 
-    let trect = Rect::new(100, 100, texture.query().width, texture.query().height);
+    let mut trect = Rect::new(100, 100, texture.query().width, texture.query().height);
 
-    canvas.set_draw_color(Color::RGB(0, 255, 255));
+    canvas.set_draw_color(Color::RGB(100, 100, 100));
     canvas.clear();
     canvas.present();
 
     let mut event_pump = sdl_context.event_pump().unwrap();
-    let mut i = 0;
 
     'running: loop {
 
-        i = (i + 1) % 255;
-        canvas.set_draw_color(Color::RGB(i, 64, 255 - i));
-        canvas.clear();
-        canvas.copy(
-            &texture,
-            None,
-            Some(trect),
-        );
+        ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
 
         for event in event_pump.poll_iter() {
 
@@ -89,8 +84,16 @@ pub fn main() -> Result<(), String> {
 
         }
 
+        canvas.clear();
+
+        canvas.copy(
+            &texture,
+            None,
+            Some(trect),
+        )?;
+
         canvas.present();
-        ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
+
     }
 
     Ok(())
