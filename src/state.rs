@@ -12,10 +12,21 @@ use sdl2::pixels::Color;
 use sdl2::video::WindowContext;
 
 
-pub trait Stateful {
-    fn get_input(&mut self, event_pump: &mut EventPump);
-    fn update(&mut self) {}
-    fn draw(&self, canvas: &mut WindowCanvas);
+pub trait LoopHolder {
+
+    fn get_input(&mut self, event_pump: &mut EventPump) -> Result<(), String>;
+    fn update(&mut self) -> Result<(), String> {Ok(())}
+    fn draw(&self, canvas: &mut WindowCanvas)-> Result<(), String>;
+
+    fn apploop(&mut self, event_pump: &mut EventPump, canvas: &mut WindowCanvas) -> Result<(), String> {
+
+        self.get_input(event_pump)?;
+        self.update()?;
+        self.draw(canvas)?;
+
+        Ok(())
+
+    }
 }
 
 struct GameObject<'a> {
@@ -49,25 +60,27 @@ impl<'a> GameState<'a> {
 }
 
 
-impl Stateful for GameState<'_> {
+impl LoopHolder for GameState<'_> {
 
-    fn get_input(&mut self, event_pump: &mut EventPump) {
+    fn get_input(&mut self, event_pump: &mut EventPump) -> Result<(), String> {
 
         for event in event_pump.poll_iter() {
 
             match event {
                 Event::Quit {..} |
                 Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
-                    panic!("Bye");
+                    return Err(String::from("quit"));
                 },
                 _ => {}
             }
 
         }
 
+        Ok(())
+
     }
 
-    fn draw(&self, canvas: &mut WindowCanvas) {
+    fn draw(&self, canvas: &mut WindowCanvas) -> Result<(), String> {
 
         canvas.set_draw_color(Color::RGB(100, 100, 100));
         canvas.clear();
@@ -76,9 +89,11 @@ impl Stateful for GameState<'_> {
             &self.game_object.texture,
             None,
             Some(self.game_object.rect)
-        );
+        )?;
 
         canvas.present();
+
+        Ok(())
 
     }
 
