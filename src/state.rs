@@ -1,0 +1,104 @@
+
+use std::collections::HashMap;
+use std::path::Path;
+
+use sdl2::EventPump;
+use sdl2::render::{WindowCanvas, Texture, TextureCreator};
+use sdl2::image::LoadTexture;
+use sdl2::event::Event;
+use sdl2::rect::Rect;
+use sdl2::keyboard::Keycode;
+use sdl2::pixels::Color;
+use sdl2::video::WindowContext;
+
+
+pub trait Stateful {
+    fn get_input(&mut self, event_pump: &mut EventPump);
+    fn update(&mut self) {}
+    fn draw(&self, canvas: &mut WindowCanvas);
+}
+
+struct GameObject<'a> {
+    texture: Texture<'a>,
+    rect: Rect,
+}
+
+pub struct GameState<'a> {
+    game_object: GameObject<'a>
+}
+
+impl<'a> GameState<'a> {
+
+    fn new(texture_creator: &'a TextureCreator<WindowContext>) -> Result<Self, String> {
+
+        let texture = texture_creator.load_texture(
+                        Path::new("src/data/images/ship_0000.png")
+                      )?;
+
+        let rect = Rect::new(
+            100,
+            100,
+            texture.query().width,
+            texture.query().height,
+        );
+
+
+        Ok(Self{ game_object: GameObject {texture, rect}})
+
+    }
+}
+
+
+impl Stateful for GameState<'_> {
+
+    fn get_input(&mut self, event_pump: &mut EventPump) {
+
+        for event in event_pump.poll_iter() {
+
+            match event {
+                Event::Quit {..} |
+                Event::KeyDown { keycode: Some(Keycode::Escape), .. } => {
+                    panic!("Bye");
+                },
+                _ => {}
+            }
+
+        }
+
+    }
+
+    fn draw(&self, canvas: &mut WindowCanvas) {
+
+        canvas.set_draw_color(Color::RGB(100, 100, 100));
+        canvas.clear();
+
+        canvas.copy(
+            &self.game_object.texture,
+            None,
+            Some(self.game_object.rect)
+        );
+
+        canvas.present();
+
+    }
+
+}
+
+pub enum State<'a> {
+    Game(GameState<'a>),
+}
+
+pub fn get_state_map<'a> (texture_creator: &'a TextureCreator<WindowContext>) -> HashMap<String, State<'a>> {
+
+    let mut state_map: HashMap<String, State> = HashMap::new();
+
+    let game_state = GameState::new(&texture_creator).unwrap();
+
+    state_map.insert(
+        String::from("game"),
+        State::Game(game_state),
+    );
+
+    state_map
+
+}

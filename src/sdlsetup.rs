@@ -12,7 +12,7 @@ pub struct SdlRefs {
 }
 
 
-pub fn setup() -> Result<SdlRefs, String> {
+pub fn setup_and_get_refs() -> Result<SdlRefs, String> {
 
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
@@ -59,9 +59,9 @@ pub fn setup() -> Result<SdlRefs, String> {
 
     Ok (
         SdlRefs {
-            canvas: canvas,
-            texture_creator: texture_creator,
-            event_pump: event_pump,
+            canvas,
+            texture_creator,
+            event_pump,
         }
     )
 
