@@ -1,28 +1,28 @@
 
 pub mod loopholdertrait;
-mod gamestate;
+mod game;
 
 use std::collections::HashMap;
 
 use sdl2::render::TextureCreator;
 use sdl2::video::WindowContext;
 
-use crate::state::gamestate::GameState;
+use crate::state::game::Game;
 
 
 pub enum State<'a> {
-    Game(GameState<'a>),
+    GameState(Game<'a>),
 }
 
 pub fn get_state_map<'a> (texture_creator: &'a TextureCreator<WindowContext>) -> HashMap<String, State<'a>> {
 
     let mut state_map: HashMap<String, State> = HashMap::new();
 
-    let game_state = GameState::new(&texture_creator).unwrap();
+    let game = Game::new(&texture_creator).unwrap();
 
     state_map.insert(
-        String::from("game"),
-        State::Game(game_state),
+        "game".to_string(),
+        State::GameState(game),
     );
 
     state_map

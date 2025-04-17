@@ -16,9 +16,9 @@ pub fn main() -> Result<(), String> {
 
     let mut state_map = get_state_map(&sdl_refs.texture_creator);
 
-    let State::Game(state) = state_map.get_mut("game").unwrap();
+    let State::GameState(state) = state_map.get_mut("game").unwrap();
 
-    let quit = String::from("quit");
+    let quit = "quit".to_string();
 
     loop {
 

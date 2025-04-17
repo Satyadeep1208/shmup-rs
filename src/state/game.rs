@@ -15,16 +15,16 @@ use sdl2::image::LoadTexture;
 use crate::state::loopholdertrait::LoopHolder;
 
 
-struct GameObject<'a> {
+struct Object<'a> {
     texture: Texture<'a>,
     rect: Rect,
 }
 
-pub struct GameState<'a> {
-    game_object: GameObject<'a>
+pub struct Game<'a> {
+    game_object: Object<'a>
 }
 
-impl<'a> GameState<'a> {
+impl<'a> Game<'a> {
 
     pub fn new(texture_creator: &'a TextureCreator<WindowContext>) -> Result<Self, String> {
 
@@ -40,13 +40,13 @@ impl<'a> GameState<'a> {
         );
 
 
-        Ok(Self{ game_object: GameObject {texture, rect}})
+        Ok(Self{ game_object: Object {texture, rect}})
 
     }
 }
 
 
-impl LoopHolder for GameState<'_> {
+impl LoopHolder for Game<'_> {
 
     fn get_input(&mut self, event_pump: &mut EventPump) -> Result<(), String> {
 
