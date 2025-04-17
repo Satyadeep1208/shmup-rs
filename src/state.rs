@@ -1,13 +1,14 @@
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::path::Path;
+use std::ops::Not;
 
 use sdl2::EventPump;
 use sdl2::render::{WindowCanvas, Texture, TextureCreator};
 use sdl2::image::LoadTexture;
 use sdl2::event::Event;
 use sdl2::rect::Rect;
-use sdl2::keyboard::Keycode;
+use sdl2::keyboard::{Keycode, Scancode};
 use sdl2::pixels::Color;
 use sdl2::video::WindowContext;
 
@@ -75,6 +76,25 @@ impl LoopHolder for GameState<'_> {
             }
 
         }
+
+        let pressed: HashSet<Scancode> = event_pump.keyboard_state().pressed_scancodes().collect();
+
+        let (mut dx, mut dy) = (0, 0);
+
+        if pressed.contains(&Scancode::W) {dy -= 1};
+        if pressed.contains(&Scancode::A) {dx -= 1};
+        if pressed.contains(&Scancode::S) {dy += 1};
+        if pressed.contains(&Scancode::D) {dx += 1};
+
+        if (dx == 0 && dy == 0).not() {
+            dx *= 6;
+            dy *= 6;
+            self.game_object.rect.offset(dx, dy);
+        }
+
+//        if event_pump.keyboard_state().is_scancode_pressed(Scancode::D) {
+//            self.game_object.rect.offset(4, 0);
+//        }
 
         Ok(())
 
