@@ -5,7 +5,9 @@ mod state;
 use std::time::Duration;
 
 use sdlsetup::setup_and_get_refs;
-use state::{State, LoopHolder, get_state_map};
+
+use state::{State, get_state_map};
+use state::loopholdertrait::LoopHolder;
 
 
 pub fn main() -> Result<(), String> {
