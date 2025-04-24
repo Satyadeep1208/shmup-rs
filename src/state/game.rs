@@ -1,22 +1,19 @@
 
-use std::collections::HashSet;
-use std::path::Path;
+use std::collections::{HashMap, HashSet};
 use std::ops::Not;
 
 use sdl2::EventPump;
 use sdl2::event::Event;
 use sdl2::keyboard::{Keycode, Scancode};
-use sdl2::render::{WindowCanvas, Texture, TextureCreator};
-use sdl2::video::WindowContext;
+use sdl2::render::{WindowCanvas, Texture, TextureQuery};
 use sdl2::rect::Rect;
 use sdl2::pixels::Color;
-use sdl2::image::LoadTexture;
 
 use crate::state::loopholdertrait::LoopHolder;
 
 
 struct Object<'a> {
-    texture: Texture<'a>,
+    texture: &'a Texture<'a>,
     rect: Rect,
 }
 
@@ -26,21 +23,16 @@ pub struct Game<'a> {
 
 impl<'a> Game<'a> {
 
-    pub fn new(texture_creator: &'a TextureCreator<WindowContext>) -> Result<Self, String> {
+    pub fn new(texture_map: &'a HashMap<String, Texture>) -> Result<Self, String> {
 
-        let texture = texture_creator.load_texture(
-                        Path::new("src/data/images/ship_0000.png")
-                      )?;
+        let key_string = "ship_0000.png".to_string();
+        let texture = &texture_map.get(&key_string).unwrap();
 
-        let rect = Rect::new(
-            100,
-            100,
-            texture.query().width,
-            texture.query().height,
-        );
+        let TextureQuery {width, height, .. } = texture.query();
 
+        let rect = Rect::new(100, 100, width, height);
 
-        Ok(Self{ game_object: Object {texture, rect}})
+        Ok(Self{ game_object: Object {texture: &texture, rect: rect}})
 
     }
 }

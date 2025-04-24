@@ -1,10 +1,13 @@
 
 mod sdlsetup;
+mod texturemap;
 mod state;
 
 use std::time::Duration;
 
 use sdlsetup::setup_and_get_refs;
+
+use texturemap::get_texture_map;
 
 use state::{State, get_state_map};
 use state::loopholdertrait::LoopHolder;
@@ -14,7 +17,9 @@ pub fn main() -> Result<(), String> {
 
     let mut sdl_refs = setup_and_get_refs().unwrap();
 
-    let mut state_map = get_state_map(&sdl_refs.texture_creator);
+    let texture_map = get_texture_map(&sdl_refs.texture_creator);
+
+    let mut state_map = get_state_map(&texture_map);
 
     let State::GameState(state) = state_map.get_mut("game").unwrap();
 
