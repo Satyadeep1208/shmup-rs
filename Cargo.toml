@@ -2,6 +2,13 @@
 name = "shmup"
 version = "0.1.0"
 edition = "2024"
+description = "Destroy hordes of enemies in this shmup game with your spaceplane."
+authors = ["Kennedy Richard <kennedy@kennedyrichard.com>"]
+repository = "https://github.com/IndieSmiths/shmup-rs"
+homepage = "https://shmup.indiesmiths.com"
+license = "Unlicense"
+keywords = ["video-game", "shmup", "kenney-assets", "game", "indie-smiths"]
+categories = ["games"]
 
 [dependencies.sdl2]
 version = "0.37"
