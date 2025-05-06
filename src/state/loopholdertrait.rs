@@ -19,8 +19,8 @@ pub trait LoopHolder {
 
     fn update<'a>(
         &mut self,
-        game_struct: &mut GameStruct<'a>,
-        texture_map: &'a HashMap<String, Texture<'a>>,
+        #[allow(unused_variables)] game_struct: &mut GameStruct<'a>,
+        #[allow(unused_variables)] texture_map: &'a HashMap<String, Texture<'a>>,
     ) -> Result<(), String> {
         Ok(())
     }
