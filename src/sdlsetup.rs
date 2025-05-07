@@ -29,7 +29,7 @@ pub fn setup_and_get_structs() -> Result<SdlStructs, String> {
     /* XXX
     // probably set window size with the width and height
     // grabbed as demonstrated below, but probably only if
-    // the values are smaller than the resolution set further
+    // the values are larger than the resolution set further
     // below in canvas.set_logical_size
     //
     // also, when needed, research the different behaviour of
