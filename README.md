@@ -9,9 +9,9 @@ Shmup is game wherein you destroy hordes of enemies with your spaceplane. It is 
 
 This project is part of the [Indie Smiths](https://github.com/IndieSmiths) project and has a [dedicated website](https://shmup.indiesmiths.com) where soon you'll be able to find more info about it.
 
-It is made in [Rust](https://github.com/rust-lang/rust), with the Rust bindings to the SDL2 library ([crate](https://crates.io/crates/sdl2) | [GitHub repo](https://github.com/Rust-SDL2/rust-sdl2), targeting desktop platforms where Rust is available like Windows, Mac and Linux.
+It is made in [Rust](https://github.com/rust-lang/rust), with the Rust bindings to the SDL2 library ([crate](https://crates.io/crates/sdl2) | [GitHub repo](https://github.com/Rust-SDL2/rust-sdl2)), targeting desktop platforms where Rust is available like Windows, Mac and Linux.
 
-This game was created by [Kennedy R. S. Guerra](https://kennedyrichard.com) (me), who also develops/maintains it. The code is public domain with [The Unlicense][] license and the art are CC0 assets provided for free by [Kenney](https://kenney.nl/assets).
+This game was created by [Kennedy R. S. Guerra](https://kennedyrichard.com) (me), who also develops/maintains it. The code is public domain with [The Unlicense](https://unlicense.org/) license and the art are [CC0](https://creativecommons.org/publicdomain/zero/1.0/) assets provided for free by [Kenney](https://kenney.nl/assets).
 
 
 ## Support the game
@@ -116,7 +116,7 @@ You are also welcome on the Indie Smiths's [discord server](https://indiesmiths.
 
 ## License
 
-Shmup is dedicated to the public domain with [The Unlicense](https://unlicense.org/). The art are CC0 assets provided for free by [Kenney](https://kenney.nl/assets).
+Shmup is dedicated to the public domain with [The Unlicense](https://unlicense.org/). The art are [CC0](https://creativecommons.org/publicdomain/zero/1.0/) assets provided for free by [Kenney](https://kenney.nl/assets).
 
 
 ## Why the name on game's title
